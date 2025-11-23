@@ -1,0 +1,517 @@
+{
+  "info": {
+    "name": "EduTech Innovators API",
+    "description": "Colección completa de Postman para EduTech Innovators API con Auth y Profiles",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"usuario@example.com\",\n  \"password\": \"password123\",\n  \"role\": \"ESTUDIANTE\",\n  \"nombre\": \"Juan P\\u00e9rez\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Registrar nuevo usuario. Roles disponibles: ESTUDIANTE, INSTRUCTOR"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"usuario@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Iniciar sesión y obtener token JWT"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "profile"
+              ]
+            },
+            "description": "Obtener información del usuario autenticado (requiere token)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "users"
+              ]
+            },
+            "description": "Listar todos los usuarios del sistema (solo ADMIN)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints de autenticación (registro, login, perfil de usuario)"
+    },
+    {
+      "name": "Upload Image",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [],
+              "description": "Imagen a subir (JPG, PNG, etc.) - Máximo 5MB"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/upload/image",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "upload",
+            "image"
+          ]
+        },
+        "description": "Sube una imagen al servidor y genera un thumbnail automáticamente"
+      },
+      "response": [
+        {
+          "name": "Upload exitoso",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/upload/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "upload",
+                "image"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": "{\n  \"message\": \"Imagen subida exitosamente\",\n  \"imagen\": \"uploads/1700000000000-imagen.jpg\",\n  \"imagenThumbnail\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Upload por Entidad",
+      "item": [
+        {
+          "name": "Upload Curso Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": [],
+                  "description": "Imagen para Curso (JPG, PNG, etc.) - Máximo 5MB"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/curso/{{id}}/upload-image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "curso",
+                "{{id}}",
+                "upload-image"
+              ]
+            },
+            "description": "Sube una imagen y la asocia al Curso especificado. Requiere autenticación."
+          },
+          "response": [
+            {
+              "name": "Upload exitoso",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": []
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/curso/507f1f77bcf86cd799439011/upload-image",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "curso",
+                    "507f1f77bcf86cd799439011",
+                    "upload-image"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"message\": \"Imagen subida y asociada exitosamente\",\n  \"data\": {\n    \"curso\": {\n      \"_id\": \"507f1f77bcf86cd799439011\",\n      \"imagen\": \"uploads/1700000000000-imagen.jpg\",\n      \"imagenThumbnail\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n    },\n    \"upload\": {\n      \"url\": \"uploads/1700000000000-imagen.jpg\",\n      \"thumbnailUrl\": \"uploads/thumbnails/thumb-1700000000000-imagen.jpg\"\n    }\n  }\n}"
+            }
+          ]
+        }
+      ],
+      "description": "Endpoints para subir y asociar imágenes a entidades específicas: Curso"
+    },
+    {
+      "name": "Servir Imágenes",
+      "item": [
+        {
+          "name": "Get Image",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/uploads/{{filename}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "uploads",
+                "{{filename}}"
+              ]
+            },
+            "description": "Obtiene una imagen subida previamente"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Thumbnail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/uploads/thumbnails/{{filename}}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "uploads",
+                "thumbnails",
+                "{{filename}}"
+              ]
+            },
+            "description": "Obtiene un thumbnail generado automáticamente"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints para servir imágenes y thumbnails"
+    },
+    {
+      "name": "EstudianteProfile (Profiles)",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/estudiante-profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "estudiante-profile",
+                "me"
+              ]
+            },
+            "description": "Obtener mi EstudianteProfile (requiere rol ESTUDIANTE)"
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Nombre Actualizado\",\n  \"telefono\": \"+51 987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/estudiante-profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "estudiante-profile",
+                "me"
+              ]
+            },
+            "description": "Actualizar mi EstudianteProfile (requiere rol ESTUDIANTE)"
+          }
+        },
+        {
+          "name": "List All Profiles (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/estudiante-profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "estudiante-profile"
+              ]
+            },
+            "description": "Listar todos los EstudianteProfile (requiere rol ADMIN)"
+          }
+        },
+        {
+          "name": "Get Profile by UserId (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/estudiante-profile/:userId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "estudiante-profile",
+                ":userId"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "description": "ID del usuario"
+                }
+              ]
+            },
+            "description": "Obtener EstudianteProfile por userId (requiere rol ADMIN)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "InstructorProfile (Profiles)",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/instructor-profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "instructor-profile",
+                "me"
+              ]
+            },
+            "description": "Obtener mi InstructorProfile (requiere rol INSTRUCTOR)"
+          }
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Nombre Actualizado\",\n  \"telefono\": \"+51 987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/instructor-profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "instructor-profile",
+                "me"
+              ]
+            },
+            "description": "Actualizar mi InstructorProfile (requiere rol INSTRUCTOR)"
+          }
+        },
+        {
+          "name": "List All Profiles (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/instructor-profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "instructor-profile"
+              ]
+            },
+            "description": "Listar todos los InstructorProfile (requiere rol ADMIN)"
+          }
+        },
+        {
+          "name": "Get Profile by UserId (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/instructor-profile/:userId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "instructor-profile",
+                ":userId"
+              ],
+              "variable": [
+                {
+                  "key": "userId",
+                  "value": "",
+                  "description": "ID del usuario"
+                }
+              ]
+            },
+            "description": "Obtener InstructorProfile por userId (requiere rol ADMIN)"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    }
+  ]
+}
