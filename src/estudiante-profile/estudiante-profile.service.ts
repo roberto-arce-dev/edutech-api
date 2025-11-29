@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { EstudianteProfile, EstudianteProfileDocument } from './schemas/estudiante-profile.schema';
 import { CreateEstudianteProfileDto } from './dto/create-estudiante-profile.dto';
 import { UpdateEstudianteProfileDto } from './dto/update-estudiante-profile.dto';
@@ -13,14 +13,14 @@ export class EstudianteProfileService {
 
   async create(userId: string, dto: CreateEstudianteProfileDto): Promise<EstudianteProfile> {
     const profile = await this.estudianteprofileModel.create({
-      user: userId,
+      user: new Types.ObjectId(userId),
       ...dto,
     });
     return profile;
   }
 
   async findByUserId(userId: string): Promise<EstudianteProfile | null> {
-    return this.estudianteprofileModel.findOne({ user: userId }).populate('user', 'email role').exec();
+    return this.estudianteprofileModel.findOne({ user: new Types.ObjectId(userId) }).populate('user', 'email role').exec();
   }
 
   async findAll(): Promise<EstudianteProfile[]> {
@@ -29,7 +29,7 @@ export class EstudianteProfileService {
 
   async update(userId: string, dto: UpdateEstudianteProfileDto): Promise<EstudianteProfile> {
     const profile = await this.estudianteprofileModel.findOneAndUpdate(
-      { user: userId },
+      { user: new Types.ObjectId(userId) },
       { $set: dto },
       { new: true },
     );
@@ -40,7 +40,7 @@ export class EstudianteProfileService {
   }
 
   async delete(userId: string): Promise<void> {
-    const result = await this.estudianteprofileModel.deleteOne({ user: userId });
+    const result = await this.estudianteprofileModel.deleteOne({ user: new Types.ObjectId(userId) });
     if (result.deletedCount === 0) {
       throw new NotFoundException('Profile no encontrado');
     }

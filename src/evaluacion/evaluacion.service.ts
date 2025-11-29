@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateEvaluacionDto } from './dto/create-evaluacion.dto';
 import { UpdateEvaluacionDto } from './dto/update-evaluacion.dto';
 import { Evaluacion, EvaluacionDocument } from './schemas/evaluacion.schema';
@@ -50,5 +50,34 @@ export class EvaluacionService {
     if (!result) {
       throw new NotFoundException(`Evaluacion con ID ${id} no encontrado`);
     }
+  }
+
+  async findByCurso(cursoId: string): Promise<Evaluacion[]> {
+    const evaluaciones = await this.evaluacionModel.find()
+      .populate({
+        path: 'modulo',
+        match: { curso: new Types.ObjectId(cursoId) },
+        select: 'titulo descripcion orden curso'
+      })
+      .populate('usuario', 'nombre email avatar')
+      .sort({ fechaEvaluacion: -1 });
+    
+    // Filtrar evaluaciones donde el módulo pertenece al curso
+    return evaluaciones.filter(evaluacion => evaluacion.modulo);
+  }
+
+  async findByUsuario(usuarioId: string): Promise<Evaluacion[]> {
+    const evaluaciones = await this.evaluacionModel.find({ usuario: new Types.ObjectId(usuarioId) })
+      .populate({
+        path: 'modulo',
+        select: 'titulo descripcion orden curso',
+        populate: {
+          path: 'curso',
+          select: 'titulo descripcion'
+        }
+      })
+      .populate('usuario', 'nombre email avatar')
+      .sort({ fechaEvaluacion: -1 });
+    return evaluaciones;
   }
 }

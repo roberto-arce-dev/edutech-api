@@ -102,6 +102,39 @@ export class InscripcionController {
     return { success: true, data, total: data.length };
   }
 
+  @Get('usuario/:userId')
+  @ApiOperation({ summary: 'Obtener cursos inscritos por usuario' })
+  @ApiParam({ name: 'userId', description: 'ID del usuario' })
+  @ApiResponse({ status: 200, description: 'Lista de cursos inscritos del usuario' })
+  async findByUsuario(@Param('userId') userId: string) {
+    const data = await this.inscripcionService.findByUsuario(userId);
+    return { success: true, data, total: data.length };
+  }
+
+  @Post('inscribir')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Inscribir usuario en un curso' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        usuarioId: { type: 'string', description: 'ID del usuario' },
+        cursoId: { type: 'string', description: 'ID del curso' }
+      },
+      required: ['usuarioId', 'cursoId']
+    }
+  })
+  @ApiResponse({ status: 201, description: 'Inscripción realizada exitosamente' })
+  @ApiResponse({ status: 400, description: 'El usuario ya está inscrito en este curso' })
+  async inscribir(@Body() inscribirDto: { usuarioId: string; cursoId: string }) {
+    const data = await this.inscripcionService.inscribir(inscribirDto);
+    return {
+      success: true,
+      message: 'Inscripción realizada exitosamente',
+      data,
+    };
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener Inscripcion por ID' })
   @ApiParam({ name: 'id', description: 'ID del Inscripcion' })

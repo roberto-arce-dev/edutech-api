@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateInscripcionDto } from './dto/create-inscripcion.dto';
 import { UpdateInscripcionDto } from './dto/update-inscripcion.dto';
 import { Inscripcion, InscripcionDocument } from './schemas/inscripcion.schema';
@@ -48,5 +48,35 @@ export class InscripcionService {
     if (!result) {
       throw new NotFoundException(`Inscripcion con ID ${id} no encontrado`);
     }
+  }
+
+  async findByUsuario(usuarioId: string): Promise<Inscripcion[]> {
+    const inscripciones = await this.inscripcionModel.find({ usuario: new Types.ObjectId(usuarioId) })
+      .populate('curso', 'titulo descripcion instructor imagen nivel')
+      .populate('usuario', 'nombre email avatar')
+      .sort({ fechaInscripcion: -1 });
+    return inscripciones;
+  }
+
+  async inscribir(inscribirDto: { usuarioId: string; cursoId: string }): Promise<Inscripcion> {
+    // Verificar si ya existe la inscripción
+    const inscripcionExistente = await this.inscripcionModel.findOne({
+      usuario: new Types.ObjectId(inscribirDto.usuarioId),
+      curso: new Types.ObjectId(inscribirDto.cursoId)
+    });
+
+    if (inscripcionExistente) {
+      throw new BadRequestException('El usuario ya está inscrito en este curso');
+    }
+
+    // Crear nueva inscripción
+    const nuevaInscripcion = await this.inscripcionModel.create({
+      usuario: new Types.ObjectId(inscribirDto.usuarioId),
+      curso: new Types.ObjectId(inscribirDto.cursoId),
+      fechaInscripcion: new Date(),
+      estado: 'activa'
+    });
+
+    return await this.findOne((nuevaInscripcion._id as Types.ObjectId).toString());
   }
 }

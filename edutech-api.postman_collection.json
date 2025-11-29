@@ -505,6 +505,129 @@
           }
         }
       ]
+    },
+    {
+      "name": "Inscripción",
+      "item": [
+        {
+          "name": "Mis Cursos Inscritos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripcion/usuario/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripcion",
+                "usuario",
+                "{{userId}}"
+              ]
+            },
+            "description": "Obtener lista de cursos en los que está inscrito el usuario"
+          },
+          "response": []
+        },
+        {
+          "name": "Inscribirse en Curso",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/inscripcion/inscribir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "inscripcion",
+                "inscribir"
+              ]
+            },
+            "description": "Inscribir usuario en un curso específico",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"usuarioId\": \"{{userId}}\",\n  \"cursoId\": \"{{cursoId}}\"\n}"
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints específicos de Inscripción"
+    },
+    {
+      "name": "Evaluación",
+      "item": [
+        {
+          "name": "Evaluaciones por Curso",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/evaluacion/curso/{{cursoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "evaluacion",
+                "curso",
+                "{{cursoId}}"
+              ]
+            },
+            "description": "Obtener todas las evaluaciones de un curso específico"
+          },
+          "response": []
+        },
+        {
+          "name": "Evaluaciones por Usuario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/evaluacion/usuario/{{userId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "evaluacion",
+                "usuario",
+                "{{userId}}"
+              ]
+            },
+            "description": "Obtener historial de evaluaciones del usuario"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints específicos de Evaluación"
     }
   ],
   "variable": [

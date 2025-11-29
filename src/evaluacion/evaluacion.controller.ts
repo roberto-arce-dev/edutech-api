@@ -102,6 +102,24 @@ export class EvaluacionController {
     return { success: true, data, total: data.length };
   }
 
+  @Get('curso/:cursoId')
+  @ApiOperation({ summary: 'Obtener evaluaciones por curso' })
+  @ApiParam({ name: 'cursoId', description: 'ID del curso' })
+  @ApiResponse({ status: 200, description: 'Lista de evaluaciones del curso' })
+  async findByCurso(@Param('cursoId') cursoId: string) {
+    const data = await this.evaluacionService.findByCurso(cursoId);
+    return { success: true, data, total: data.length };
+  }
+
+  @Get('usuario/:usuarioId')
+  @ApiOperation({ summary: 'Obtener evaluaciones por usuario' })
+  @ApiParam({ name: 'usuarioId', description: 'ID del usuario' })
+  @ApiResponse({ status: 200, description: 'Lista de evaluaciones del usuario' })
+  async findByUsuario(@Param('usuarioId') usuarioId: string) {
+    const data = await this.evaluacionService.findByUsuario(usuarioId);
+    return { success: true, data, total: data.length };
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener Evaluacion por ID' })
   @ApiParam({ name: 'id', description: 'ID del Evaluacion' })
