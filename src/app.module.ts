@@ -10,6 +10,9 @@ import { AuthModule } from './auth/auth.module';
 import { UploadModule } from './upload/upload.module';
 import { EstudianteProfileModule } from './estudiante-profile/estudiante-profile.module';
 import { InstructorProfileModule } from './instructor-profile/instructor-profile.module';
+import { CursoModule } from './curso/curso.module';
+import { InscripcionModule } from './inscripcion/inscripcion.module';
+import { EvaluacionModule } from './evaluacion/evaluacion.module';
 
 @Module({
   imports: [
@@ -43,6 +46,9 @@ import { InstructorProfileModule } from './instructor-profile/instructor-profile
     EstudianteProfileModule,
     InstructorProfileModule,
     UploadModule,
+    CursoModule,
+    InscripcionModule,
+    EvaluacionModule,
   ],
   controllers: [AppController],
   providers: [
