@@ -355,7 +355,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Nombre Actualizado\",\n  \"telefono\": \"+51 987654321\"\n}"
+              "raw": "{\n  \"nombre\": \"Valor de nombre\",\n  \"telefono\": \"+51 900000000\",\n  \"nivel\": \"Valor de nivel\",\n  \"preferencias\": [\n    \"valor1\",\n    \"valor2\"\n  ]\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/estudiante-profile/me",
@@ -447,7 +447,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre\": \"Nombre Actualizado\",\n  \"telefono\": \"+51 987654321\"\n}"
+              "raw": "{\n  \"nombreCompleto\": \"Valor de nombreCompleto\",\n  \"telefono\": \"+51 900000000\",\n  \"especialidad\": \"Valor de especialidad\",\n  \"biografia\": \"Valor de biografia\",\n  \"certificaciones\": [\n    \"valor1\",\n    \"valor2\"\n  ],\n  \"isVerified\": true\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/instructor-profile/me",
@@ -634,6 +634,31 @@
     {
       "key": "baseUrl",
       "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "filename",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cursoId",
+      "value": "",
       "type": "string"
     }
   ]
